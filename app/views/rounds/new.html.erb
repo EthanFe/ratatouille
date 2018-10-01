@@ -3,11 +3,12 @@
 <% end %>
 
 <h1>Start new Game</h1>
+<h2>Signed in as: <%=@chef%></h2>
 <%=form_with model:@new_round do |f|%>
 <h2>How many orders do you want to cook? <%= f.number_field :orders_count %></h2>
 <%=f.submit%>
 <%end%>
-
+<br>
 <%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
   <input type=submit value='logout'>
 <% end %>
