@@ -2,8 +2,11 @@
   <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 
-<h1>Rounds#new</h1>
-<p>Find me in app/views/rounds/new.html.erb</p>
+<h1>Start new Game</h1>
+<%=form_with model:@new_round do |f|%>
+<h2>How many orders do you want to cook? <%= f.number_field :orders_count %></h2>
+<%=f.submit%>
+<%end%>
 
 <%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
   <input type=submit value='logout'>
