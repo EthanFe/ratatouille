@@ -1,2 +1,10 @@
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
 <h1>Rounds#new</h1>
 <p>Find me in app/views/rounds/new.html.erb</p>
+
+<%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
+  <input type=submit value='logout'>
+<% end %>

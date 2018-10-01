@@ -1,0 +1,12 @@
+<h1>Register New Chef</h1>
+
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
+<%= form_with model: @chef do |form| %>
+  <div><%= form.text_field :name, placeholder: "Chef Name" %></div>
+  <div><%= form.password_field :password, placeholder: "Password" %></div>
+  <div><%= form.password_field :password_confirmation, placeholder: "Confirm Password" %></div>
+  <%= form.submit %>
+<% end %>
