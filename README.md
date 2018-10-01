@@ -45,8 +45,8 @@ e.g.
   }
 
 routes/controllers/views stuff:
-log in as chef (login page); then redirect to new game page
-new game page: has a field to select number of recipes in round, and start button
+X log in as chef (login page); then redirect to new game page
+X new game page: has a field to select number of recipes in round, and start button
 new game page makes a new round instance and then redirects to show round page for that round
 show game page has a canvas that javascript draws to
 
