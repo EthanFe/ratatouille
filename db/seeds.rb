@@ -1,3 +1,7 @@
+Recipe.destroy_all
+Ingredient.destroy_all
+Chef.destroy_all
+
 cheese = Ingredient.create(name:'du fromage')
 bread = Ingredient.create(name:'du pain')
 ham = Ingredient.create(name:'le jambon')
