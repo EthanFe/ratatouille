@@ -57,8 +57,19 @@ document.addEventListener("turbolinks:load", function() {
         pickupIngredient(ingredient)
       }
     } else {
-      rat_state.carrying = null
+      if(isNearFurnace() == true){
+        furnace['ingredients'].push(rat_state.carrying.name)
+        rate_state.carrying = null
+      }
+      else {
+        rat_state.carrying = null
+      }
     }
+  }
+
+  function isNearFurnace(){
+    var d = distance(rat_state.x,rat_state.y,furnace.x, furnace.y)
+    return (d < 60)
   }
 
   function pickupIngredient(ingredient) {
@@ -70,8 +81,10 @@ document.addEventListener("turbolinks:load", function() {
     var currentClosest = null
     for (var i in ingredients) {
       var d = distance(x,y,ingredients[i].x, ingredients[i].y)
-      if(currentClosest === null || d < distance(x,y,currentClosest.x, currentClosest.y))
+      if(currentClosest === null || d < distance(x,y,currentClosest.x, currentClosest.y)) {
          currentClosest = ingredients[i]
+         currentClosest.name = i
+      }
     }
     return currentClosest
   }
@@ -81,6 +94,7 @@ document.addEventListener("turbolinks:load", function() {
   var rat_image = findImage("rat_image")
   var background_image = findImage("background_image")
   var furnace_image = findImage("furnace_image")
+  var table_image = findImage("table_image")
   
   function findImage(image_id) {
     images_collection = document.images
@@ -129,7 +143,8 @@ document.addEventListener("turbolinks:load", function() {
     ctx.clearRect(0, 0, width, height)
     ctx.drawImage(background_image, 0, 0, width, height)
     ctx.drawImage(furnace_image, furnace.x, furnace.y, 78, 78)
-    ctx.drawImage(rat_image, rat_state.x - 32, rat_state.y - 32, 64, 64);
+    ctx.drawImage(table_image, table.x, table.y, 78, 78)
+    ctx.drawImage(rat_image, rat_state.x - 32, rat_state.y - 32, 64, 64)
     for(var i in ingredients){
       ctx.drawImage(ingredients[i]['image'], ingredients[i]['x'], ingredients[i]['y'], 50, 50)
     }
@@ -137,11 +152,32 @@ document.addEventListener("turbolinks:load", function() {
     if (rat_state.carrying != null) {
       ctx.drawImage(rat_state.carrying['image'], rat_state.x, rat_state.y, 32, 32)
     }
+
+    if (orders[0] != undefined) {
+      var text = document.getElementById('recipe_text')
+      nextOrder = orders[0]
+      text.innerHTML = nextOrder.name
+      for (var i in nextOrder.ingredients) {
+        ingredient_name = capitalize(nextOrder.ingredients[i])
+        text.innerHTML += "<br />" + ingredient_name;
+      }
+    }
   }
+
+  function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+
 
   var furnace = {
     x: width-75,
-    y: 0
+    y: 0,
+    ingredients: []
+  }
+
+  var table = {
+    x: 0, 
+    y: height-75
   }
 
 

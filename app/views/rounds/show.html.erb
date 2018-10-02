@@ -2,13 +2,15 @@
 <p>Find me in app/views/rounds/show.html.erb</p>
 
 <div id=right_column>
-    <h2>Recipes</h2>
+    <h2>Recipe</h2>
+    <div id=recipe_text>
     <% @orders.each do |o| %>
         <h3><%=o.recipe.name%></h3>
         <%o.recipe.ingredients.each do |i| %>
             <p><%=i.name%></p>
         <%end%>
     <%end%>
+    </div>
 </div>
 
 <canvas id="canvas" width=600 height=600></canvas>
@@ -16,6 +18,7 @@
 <%= image_tag "rat.png", id: "rat_image", class: "invisible" %>
 <%= image_tag "background.png", id: "background_image", class: "invisible" %>
 <%= image_tag "furnace.png", id: "furnace_image", class: "invisible" %>
+<%= image_tag "table.png", id: "table_image", class: "invisible" %>
 
 <% @images.each do |image| %>
   <% ingredient_name = image.split("ingredients/").last.split(".png").first %>
