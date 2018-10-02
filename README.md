@@ -57,3 +57,11 @@ like dis:
   
 json from hash example:
 response = {"board": game_state, "next_player": @game.active_player, "last_move": @game.last_move}.to_json
+
+render json: {orders:
+    [
+      {name: 'pizza', ingredients: ["cheese", "tomatoes", "dough"]},
+      {name: 'sushi', ingredients: ["fish", "rice"]},
+      ..
+    ]
+  }

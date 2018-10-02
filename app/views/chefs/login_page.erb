@@ -1,9 +1,11 @@
+<h1> Chef Log In </h1> 
+
 <% if flash[:notice] %>
   <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 
 <%= form_tag chefs_login_path do %>
-  <div><%= text_field_tag :username, "Username" %></div>
-  <div><%= text_field_tag :password, "Password" %></div>
+  <div><%= text_field_tag :username,nil, placeholder:'Username' %></div>
+  <div><%= text_field_tag :password,nil, placeholder:'Password' %></div>
   <%= submit_tag "Login" %>
 <% end %>
