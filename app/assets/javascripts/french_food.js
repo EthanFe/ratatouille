@@ -59,7 +59,7 @@ document.addEventListener("turbolinks:load", function() {
     } else {
       if(isNearFurnace() == true){
         furnace['ingredients'].push(rat_state.carrying.name)
-        rate_state.carrying = null
+        rat_state.carrying = null
       }
       else {
         rat_state.carrying = null
@@ -155,13 +155,18 @@ document.addEventListener("turbolinks:load", function() {
 
     if (orders[0] != undefined) {
       var text = document.getElementById('recipe_text')
-      nextOrder = orders[0]
+      var nextOrder = orders[0]
       text.innerHTML = nextOrder.name
       for (var i in nextOrder.ingredients) {
-        ingredient_name = capitalize(nextOrder.ingredients[i])
-        text.innerHTML += "<br />" + ingredient_name;
+        var ingredient_name = capitalize(nextOrder.ingredients[i])
+        var html_class_string = isInFurnace(nextOrder.ingredients[i]) ? "<div class=completed>" : ""
+        text.innerHTML += "<br />" + html_class_string + ingredient_name + "</div>";
       }
     }
+  }
+
+  function isInFurnace(name) {
+    return furnace["ingredients"].indexOf(name) > -1
   }
 
   function capitalize(string) {
