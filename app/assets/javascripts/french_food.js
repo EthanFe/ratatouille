@@ -4,7 +4,6 @@ document.addEventListener("turbolinks:load", function() {
   .catch(error => console.error(error));
 
   function setOrders(data) {
-    debugger
   }
 
   images_collection = document.images

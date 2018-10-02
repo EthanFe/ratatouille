@@ -9,7 +9,7 @@ class RoundsController < ApplicationController
     params[:round][:orders_count].to_i.times do
       @round.orders.create(round_id:@round.id,recipe_id:Recipe.all.sample.id)
     end
-    redirect_to show
+    redirect_to @round
   end
 
   def show
@@ -25,7 +25,7 @@ class RoundsController < ApplicationController
           ingredients: o.recipe.ingredients.map do |i| 
             i.name
           end 
-        }, 
+        }
       end 
     }
   render json: @orders_json
