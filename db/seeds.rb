@@ -2,13 +2,13 @@ Recipe.destroy_all
 Ingredient.destroy_all
 Chef.destroy_all
 
-cheese = Ingredient.create(name:'du fromage')
-bread = Ingredient.create(name:'du pain')
-ham = Ingredient.create(name:'le jambon')
-chicken = Ingredient.create(name:'du poulet')
-strawberries = Ingredient.create(name:'les fraises')
-eggs = Ingredient.create(name:'les oeuvres')
-spinach = Ingredient.create(name:'des epinards')
+cheese = Ingredient.create(name:'Du fromage')
+bread = Ingredient.create(name:'Du pain')
+ham = Ingredient.create(name:'Le jambon')
+chicken = Ingredient.create(name:'Du poulet')
+strawberries = Ingredient.create(name:'Les fraises')
+eggs = Ingredient.create(name:'Les oeuvres')
+spinach = Ingredient.create(name:'Des epinards')
 
 j = Chef.create(name: 'Joan of Arc', password:'jpassword', password_confirmation:'jpassword')
 ni = Chef.create(name: 'Nichola', password:'npassword', password_confirmation:'npassword')
@@ -16,10 +16,13 @@ et = Chef.create(name: 'Ethan', password:'epassword', password_confirmation:'epa
 
 
 c = Recipe.create(name: 'Une Croque Madame')
+s = Recipe.create(name: 'Un Sandwich Avec Le Jambon')
 f = Recipe.create(name: 'L\'Omelette Du Fromage')
 po = Recipe.create(name: 'L\'Omelette Avec Du Poulet')
 e = Recipe.create(name: 'Quiche Des Epinards Avec Les Fraises')
 
+RecipeIngredient.create(recipe:s, Ingredient:bread)
+RecipeIngredient.create(recipe:s, Ingredient:ham)
 RecipeIngredient.create(recipe:c, ingredient:eggs)
 RecipeIngredient.create(recipe:f, ingredient:eggs)
 RecipeIngredient.create(recipe:po, ingredient:eggs)
