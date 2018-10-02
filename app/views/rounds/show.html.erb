@@ -3,4 +3,11 @@
 
 <canvas id="canvas" width=600 height=600></canvas>
 
-<%= image_tag "rat.jpeg", id: "rat_image", class: "invisible" %>
+<%= image_tag "rat.png", id: "rat_image", class: "invisible" %>
+<%= image_tag "background.png", id: "background_image", class: "invisible" %>
+<%= image_tag "furnace.png", id: "furnace_image", class: "invisible" %>
+
+<% @images.each do |image| %>
+  <% ingredient_name = image.split("ingredients/").last.split(".png").first %>
+  <%= image_tag image, id: ingredient_name + "_image", class: "invisible" %>
+<% end %>

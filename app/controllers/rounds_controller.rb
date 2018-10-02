@@ -13,7 +13,9 @@ class RoundsController < ApplicationController
   end
 
   def show
-  
+    @images = Dir.chdir(Rails.root.join('app/assets/images')) do
+      Dir.glob("ingredients/*.png")
+    end
   end
 
   def orders 
