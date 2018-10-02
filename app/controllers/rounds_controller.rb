@@ -13,6 +13,7 @@ class RoundsController < ApplicationController
   end
 
   def show
+    @orders = Round.find(params[:id]).orders 
     @images = Dir.chdir(Rails.root.join('app/assets/images')) do
       Dir.glob("ingredients/*.png")
     end

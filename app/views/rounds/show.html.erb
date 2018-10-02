@@ -1,6 +1,16 @@
 <h1>Rounds#show</h1>
 <p>Find me in app/views/rounds/show.html.erb</p>
 
+<div id=right_column>
+    <h2>Recipes</h2>
+    <% @orders.each do |o| %>
+        <h3><%=o.recipe.name%></h3>
+        <%o.recipe.ingredients.each do |i| %>
+            <p><%=i.name%></p>
+        <%end%>
+    <%end%>
+</div>
+
 <canvas id="canvas" width=600 height=600></canvas>
 
 <%= image_tag "rat.png", id: "rat_image", class: "invisible" %>

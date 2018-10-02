@@ -48,6 +48,35 @@ document.addEventListener("turbolinks:load", function() {
     return lowest
   }
 
+  function spaceBarPressed() {
+    if (rat_state.carrying === null) {
+      var rat_grab_range = 60
+      var ingredient = closestIngredient(rat_state.x, rat_state.y)
+      var d = distance(rat_state.x,rat_state.y,ingredient.x, ingredient.y)
+      if (d < rat_grab_range) {
+        pickupIngredient(ingredient)
+      }
+    } else {
+      rat_state.carrying = null
+    }
+  }
+
+  function pickupIngredient(ingredient) {
+    console.log("Pickin up an ingredient")
+    rat_state.carrying = ingredient
+  }
+
+  function closestIngredient(x, y) {
+    var currentClosest = null
+    for (var i in ingredients) {
+      var d = distance(x,y,ingredients[i].x, ingredients[i].y)
+      if(currentClosest === null || d < distance(x,y,currentClosest.x, currentClosest.y))
+         currentClosest = ingredients[i]
+    }
+    return currentClosest
+  }
+
+
 
   var rat_image = findImage("rat_image")
   var background_image = findImage("background_image")
@@ -63,31 +92,31 @@ document.addEventListener("turbolinks:load", function() {
   }
   
   function update(progress) {
-    if (state.pressedKeys.left) {
-      state.x -= progress
+    if (rat_state.pressedKeys.left) {
+      rat_state.x -= progress
     }
-    if (state.pressedKeys.right) {
-      state.x += progress
+    if (rat_state.pressedKeys.right) {
+      rat_state.x += progress
     }
-    if (state.pressedKeys.up) {
-      state.y -= progress
+    if (rat_state.pressedKeys.up) {
+      rat_state.y -= progress
     }
-    if (state.pressedKeys.down) {
-      state.y += progress
+    if (rat_state.pressedKeys.down) {
+      rat_state.y += progress
     }
 
     // Prevent moving past boundaries
-    if (state.x > width) {
-      state.x = width
+    if (rat_state.x > width) {
+      rat_state.x = width
     }
-    else if (state.x < 0) {
-      state.x = 0
+    else if (rat_state.x < 0) {
+      rat_state.x = 0
     }
-    if (state.y > height) {
-      state.y = height
+    if (rat_state.y > height) {
+      rat_state.y = height
     }
-    else if (state.y < 0) {
-      state.y = 0
+    else if (rat_state.y < 0) {
+      rat_state.y = 0
     }
   }
 
@@ -100,9 +129,13 @@ document.addEventListener("turbolinks:load", function() {
     ctx.clearRect(0, 0, width, height)
     ctx.drawImage(background_image, 0, 0, width, height)
     ctx.drawImage(furnace_image, furnace.x, furnace.y, 78, 78)
-    ctx.drawImage(rat_image, state.x - 32, state.y - 32, 64, 64);
+    ctx.drawImage(rat_image, rat_state.x - 32, rat_state.y - 32, 64, 64);
     for(var i in ingredients){
       ctx.drawImage(ingredients[i]['image'], ingredients[i]['x'], ingredients[i]['y'], 50, 50)
+    }
+
+    if (rat_state.carrying != null) {
+      ctx.drawImage(rat_state.carrying['image'], rat_state.x, rat_state.y, 32, 32)
     }
   }
 
@@ -112,7 +145,7 @@ document.addEventListener("turbolinks:load", function() {
   }
 
 
-  var state = {
+  var rat_state = {
     x: (width / 2),
     y: (height / 2),
     pressedKeys: {
@@ -120,7 +153,8 @@ document.addEventListener("turbolinks:load", function() {
       right: false,
       up: false,
       down: false
-    }
+    },
+    carrying: null
   }
 
 
@@ -147,11 +181,13 @@ document.addEventListener("turbolinks:load", function() {
   }
   function keydown(event) {
     var key = keyMap[event.keyCode]
-    state.pressedKeys[key] = true
+    rat_state.pressedKeys[key] = true
+    if (event.keyCode === 32)
+      spaceBarPressed()
   }
   function keyup(event) {
     var key = keyMap[event.keyCode]
-    state.pressedKeys[key] = false
+    rat_state.pressedKeys[key] = false
   }
 
   window.addEventListener("keydown", keydown, false)
