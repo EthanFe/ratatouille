@@ -13,8 +13,23 @@ class RoundsController < ApplicationController
   end
 
   def show
-
+  
   end
+
+  def orders 
+    @orders = Round.find(params[:id]).orders
+    @orders_json = {
+      orders: @orders.map do |o|
+        {
+          name:o.recipe.name, 
+          ingredients: o.recipe.ingredients.map do |i| 
+            i.name
+          end 
+        }, 
+      end 
+    }
+  render json: @orders_json
+  end 
 
   private 
 
