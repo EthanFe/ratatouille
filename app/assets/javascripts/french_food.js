@@ -81,6 +81,7 @@ document.addEventListener("turbolinks:load", function() {
       winRound()
     } else {
       ordersCompleted++
+      currentOrderStartTime = new Date().valueOf()
       rat_state.carrying = null
     }
   }

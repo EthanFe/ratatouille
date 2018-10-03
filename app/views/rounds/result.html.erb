@@ -1,6 +1,7 @@
 <h1>Round <%=@round.id%> Stats </h1>
 <h2>Orders:</h2>
 <%@round.orders.each do |o|%>
+<% binding.pry %>
 <h3><%=o.recipe.name%> Time Spent to Cook: <%=o.time/1000%>.<%=o.time.to_s[2..3]%> Seconds<h3>
 <%@total_time += o.time%>
 <%end%>
