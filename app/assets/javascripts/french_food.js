@@ -10,6 +10,8 @@ document.addEventListener("turbolinks:load", function() {
   var currentOrderStartTime = new Date().valueOf()
   var ordersCompleted = 0
 
+  playBackgroundAudio()
+
   getData(document.URL + "/orders", {})
   .then(data => setOrders(data)) // JSON-string from `response.json()` call
   .catch(error => console.error(error));

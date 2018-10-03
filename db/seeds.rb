@@ -14,7 +14,6 @@ j = Chef.create(name: 'Joan of Arc', password:'jpassword', password_confirmation
 ni = Chef.create(name: 'Nichola', password:'npassword', password_confirmation:'npassword')
 et = Chef.create(name: 'Ethan', password:'epassword', password_confirmation:'epassword')
 
-
 c = Recipe.create(name: 'Une Croque Madame')
 sh = Recipe.create(name: 'Un Sandwich Avec Le Jambon')
 sc = Recipe.create(name: 'Un Sandwich Avec Du Poulet')

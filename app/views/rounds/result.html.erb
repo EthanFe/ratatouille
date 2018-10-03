@@ -12,6 +12,17 @@
 <p></p>
 <%= link_to "Leaderboard", leaderboard_path%>
 <p></p>
+
+<%if ((@total_time/1000)/@round.orders.length) < 16.0 %>
+<%= audio_tag "good.mp3", class:'play'%>
+<button onclick="playGoodAudio()" type="button">Feedback</button>
+</p>
+<%else%>
+<%= audio_tag "bad.mp3", class:'bad'%>
+<button onclick="playBadAudio()" type="button">Feedback</button>
+</p>
+<%end%>
+
 <%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
   <input type=submit value='logout'>
 <% end %>
