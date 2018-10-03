@@ -7,8 +7,13 @@ window.addEventListener('scroll', noscroll);
 document.addEventListener("turbolinks:load", function() {
   var orders = []
   var ingredients = {}
-  var currentOrderStartTime = new Date().valueOf()
+  var currentOrderStartTime = getCurrentTime()
   var ordersCompleted = 0
+  var error = {
+    message: '',
+    timeSet: null,
+    duration: 5000
+  }
 
   getData(document.URL + "/orders", {})
   .then(data => setOrders(data)) // JSON-string from `response.json()` call
@@ -67,13 +72,24 @@ document.addEventListener("turbolinks:load", function() {
         finishOrder();
       }
       else {
-        rat_state.carrying = null
+        dropItem()
       }
     }
   }
 
+  function dropItem() {
+    itemName = (rat_state.carrying.name == null) ? rat_state.carrying : rat_state.carrying.name
+    addError("You dropped the " + itemName + "!")
+    rat_state.carrying = null
+  }
+
+  function addError(message) {
+    error.message = message
+    error.timeSet = getCurrentTime()
+  }
+
   function finishOrder() {
-    var timeTaken = new Date().valueOf() - currentOrderStartTime
+    var timeTaken = getCurrentTime() - currentOrderStartTime
     postData(document.URL + "/order_finished", {time: timeTaken, order_id: nextOrder().id})
     .then(data => console.log("successfully sent a lettuce omelette or whatever")) // JSON-string from `response.json()` call
     .catch(error => console.error(error));
@@ -82,7 +98,7 @@ document.addEventListener("turbolinks:load", function() {
       winRound()
     } else {
       ordersCompleted++
-      currentOrderStartTime = new Date().valueOf()
+      currentOrderStartTime = getCurrentTime()
       rat_state.carrying = null
     }
   }
@@ -258,11 +274,18 @@ document.addEventListener("turbolinks:load", function() {
     carrying: null
   }
 
-
+  function updateErrorMessage() {
+    document.getElementById("error_text").textContent = error.message
+    if (getCurrentTime() - error.timeSet >= error.duration) {
+      error.message = ''
+      error.timeSet = null
+    }
+  }
 
   function loop(timestamp) {
     var progress = timestamp - lastRender
 
+    updateErrorMessage()
     moveRat(progress)
     cookMeal(progress)
     draw()
