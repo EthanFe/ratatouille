@@ -132,17 +132,19 @@ document.addEventListener("turbolinks:load", function() {
  
   
   function moveRat(progress) {
+    movespeed_modifier = shiftHeld ? 0.5 : 1
+    movement = movespeed_modifier * progress
     if (rat_state.pressedKeys.left) {
-      rat_state.x -= progress
+      rat_state.x -= movement
     }
     if (rat_state.pressedKeys.right) {
-      rat_state.x += progress
+      rat_state.x += movement
     }
     if (rat_state.pressedKeys.up) {
-      rat_state.y -= progress
+      rat_state.y -= movement
     }
     if (rat_state.pressedKeys.down) {
-      rat_state.y += progress
+      rat_state.y += movement
     }
 
     // Prevent moving past boundaries
@@ -287,10 +289,23 @@ document.addEventListener("turbolinks:load", function() {
     rat_state.pressedKeys[key] = true
     if (event.keyCode === 32)
       spaceBarPressed()
+    if (event.keyCode === 16)
+      shiftPressed()
   }
   function keyup(event) {
     var key = keyMap[event.keyCode]
     rat_state.pressedKeys[key] = false
+    if (event.keyCode === 16)
+      shiftReleased()
+  }
+
+  var shiftHeld = false
+  function shiftPressed() {
+    shiftHeld = true
+  }
+
+  function shiftReleased() {
+    shiftHeld = false
   }
 
   window.addEventListener("keydown", keydown, false)
