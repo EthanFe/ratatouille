@@ -168,9 +168,11 @@ document.addEventListener("turbolinks:load", function() {
   var ctx = canvas.getContext("2d")
 
   function draw() {
+    var furnace_size = 78
+
     ctx.clearRect(0, 0, width, height)
     ctx.drawImage(background_image, 0, 0, width, height)
-    ctx.drawImage(furnace_image, furnace.x, furnace.y, 78, 78)
+    ctx.drawImage(furnace_image, furnace.x, furnace.y, furnace_size, furnace_size)
     ctx.drawImage(table_image, table.x, table.y, 78, 78)
     ctx.drawImage(rat_image, rat_state.x - 32, rat_state.y - 32, 64, 64)
     for(var i in ingredients){
@@ -199,6 +201,24 @@ document.addEventListener("turbolinks:load", function() {
     if (furnace.cooked_item != undefined) {
       var image = findImage(recipe_image_names[furnace.cooked_item] + "_image")
       ctx.drawImage(image, furnace.x, furnace.y, 32, 32)
+    }
+
+    if (furnace.cooking_time > 0) {
+      percent_cooked = furnace.cooking_time / 5000
+
+      // draw background
+      ctx.strokeStyle = "#fff"
+      ctx.lineWidth = 12;
+      ctx.beginPath();
+      ctx.arc(furnace.x + furnace_size / 2, furnace.y + furnace_size / 2, 24, Math.PI, (percent_cooked * Math.PI * 2) - Math.PI, false); // Outer circle
+      ctx.stroke();
+
+      // draw green
+      ctx.strokeStyle = "#1ccc31"
+      ctx.lineWidth = 8;
+      ctx.beginPath();
+      ctx.arc(furnace.x + furnace_size / 2, furnace.y + furnace_size / 2, 24, Math.PI, (percent_cooked * Math.PI * 2) - Math.PI, false); // Outer circle
+      ctx.stroke();
     }
   }
 
