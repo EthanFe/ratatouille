@@ -1,9 +1,9 @@
-<h1>Round <%=@round.id%> Stats </h1>
+<h1>Round Stats </h1>
 <h2>Orders:</h2>
 <%@round.orders.each do |o|%>
-<% binding.pry %>
 <h3><%=o.recipe.name%> Time Spent to Cook: <%=o.time/1000%>.<%=o.time.to_s[2..3]%> Seconds<h3>
 <%@total_time += o.time%>
 <%end%>
 <br>
-<h2>Total Time Spent: <%=(@total_time/1000).to_s[0..4]%></h2>
+<h2>Total Time Spent: <%=(@total_time/1000).to_s[0..4]%> Seconds</h2>
+<%= link_to "New Game", new_round_path %>

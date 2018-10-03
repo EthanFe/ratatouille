@@ -51,11 +51,12 @@ document.addEventListener("turbolinks:load", function() {
       var rat_grab_range = 60
       if(furnace.cooked_item != undefined && distance(rat_state.x,rat_state.y,furnace.x, furnace.y) < rat_grab_range){
         pickupMeal()
-      }
-      var ingredient = closestIngredient(rat_state.x, rat_state.y)
-      var d = distance(rat_state.x,rat_state.y,ingredient.x, ingredient.y)
-      if (d < rat_grab_range) {
-        pickupIngredient(ingredient)
+      } else {
+        var ingredient = closestIngredient(rat_state.x, rat_state.y)
+        var d = distance(rat_state.x,rat_state.y,ingredient.x, ingredient.y)
+        if (d < rat_grab_range) {
+          pickupIngredient(ingredient)
+        }
       }
     } else {
       if(isNearFurnace() == true){
