@@ -7,6 +7,8 @@ window.addEventListener('scroll', noscroll);
 document.addEventListener("turbolinks:load", function() {
   var orders = []
   var ingredients = {}
+  var currentOrderStartTime = new Date().valueOf()
+  var ordersCompleted = 0
 
   getData(document.URL + "/orders", {})
   .then(data => setOrders(data)) // JSON-string from `response.json()` call
@@ -34,10 +36,6 @@ document.addEventListener("turbolinks:load", function() {
     }
   }
 
-  function distance(x1, y1, x2, y2) {
-    return Math.sqrt((Math.abs(x2 - x1) ** 2) + (Math.abs(y2 - y1) ** 2))
-  }
-
   function distanceToOtherIngredients(x, y) {
     lowest = 1000
     for (var i in ingredients) {
@@ -51,6 +49,9 @@ document.addEventListener("turbolinks:load", function() {
   function spaceBarPressed() {
     if (rat_state.carrying === null) {
       var rat_grab_range = 60
+      if(furnace.cooked_item != undefined && distance(rat_state.x,rat_state.y,furnace.x, furnace.y) < rat_grab_range){
+        pickupMeal()
+      }
       var ingredient = closestIngredient(rat_state.x, rat_state.y)
       var d = distance(rat_state.x,rat_state.y,ingredient.x, ingredient.y)
       if (d < rat_grab_range) {
@@ -61,10 +62,41 @@ document.addEventListener("turbolinks:load", function() {
         furnace['ingredients'].push(rat_state.carrying.name)
         rat_state.carrying = null
       }
+      else if(isNearTable() == true){
+        finishOrder();
+      }
       else {
         rat_state.carrying = null
       }
     }
+  }
+
+  function finishOrder() {
+    var timeTaken = new Date().valueOf() - currentOrderStartTime
+    postData(document.URL + "/order_finished", {time: timeTaken, order_id: nextOrder().id})
+    .then(data => console.log("successfully sent a lettuce omelette or whatever")) // JSON-string from `response.json()` call
+    .catch(error => console.error(error));
+
+    if (ordersCompleted + 1 >= orders.length) {
+      winRound()
+    } else {
+      ordersCompleted++
+      rat_state.carrying = null
+    }
+  }
+
+  function winRound(){
+    var round_id = document.URL.split("/rounds/")[1]
+    window.location.replace(round_id + "/result");
+  }
+
+  function pickupMeal(){
+    rat_state.carrying = furnace.cooked_item
+    furnace.cooked_item = null
+  }
+
+  function isNearTable(){
+    return (distance(rat_state.x,rat_state.y,table.x, table.y) < 60)
   }
 
   function isNearFurnace(){
@@ -73,7 +105,6 @@ document.addEventListener("turbolinks:load", function() {
   }
 
   function pickupIngredient(ingredient) {
-    console.log("Pickin up an ingredient")
     rat_state.carrying = ingredient
   }
 
@@ -96,16 +127,9 @@ document.addEventListener("turbolinks:load", function() {
   var furnace_image = findImage("furnace_image")
   var table_image = findImage("table_image")
   
-  function findImage(image_id) {
-    images_collection = document.images
-    for(var i = 0; i < images_collection.length; i++) {
-      if(images_collection[i].id == image_id) {
-        return images_collection[i]
-      }
-    }
-  }
+ 
   
-  function update(progress) {
+  function moveRat(progress) {
     if (rat_state.pressedKeys.left) {
       rat_state.x -= progress
     }
@@ -150,34 +174,46 @@ document.addEventListener("turbolinks:load", function() {
     }
 
     if (rat_state.carrying != null) {
-      ctx.drawImage(rat_state.carrying['image'], rat_state.x, rat_state.y, 32, 32)
+      if (rat_state.carrying['image'] != undefined) {
+        ctx.drawImage(rat_state.carrying['image'], rat_state.x, rat_state.y, 32, 32)
+      } else {
+        var image = findImage(recipe_image_names[rat_state.carrying] + "_image")
+        ctx.drawImage(image, rat_state.x, rat_state.y, 32, 32)
+      }
     }
 
-    if (orders[0] != undefined) {
+    if (nextOrder() != undefined) {
       var text = document.getElementById('recipe_text')
-      var nextOrder = orders[0]
-      text.innerHTML = nextOrder.name
-      for (var i in nextOrder.ingredients) {
-        var ingredient_name = capitalize(nextOrder.ingredients[i])
-        var html_class_string = isInFurnace(nextOrder.ingredients[i]) ? "<div class=completed>" : ""
+      text.innerHTML = nextOrder().name
+      for (var i in nextOrder().ingredients) {
+        var ingredient_name = capitalize(nextOrder().ingredients[i])
+        var html_class_string = isInFurnace(nextOrder().ingredients[i]) ? "<div class=completed>" : ""
         text.innerHTML += "<br />" + html_class_string + ingredient_name + "</div>";
       }
     }
+
+    if (furnace.cooked_item != undefined) {
+      var image = findImage(recipe_image_names[furnace.cooked_item] + "_image")
+      ctx.drawImage(image, furnace.x, furnace.y, 32, 32)
+    }
+  }
+
+  function nextOrder() {
+    return orders[ordersCompleted]
   }
 
   function isInFurnace(name) {
     return furnace["ingredients"].indexOf(name) > -1
   }
 
-  function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-  }
-
+  
 
   var furnace = {
     x: width-75,
     y: 0,
-    ingredients: []
+    ingredients: [],
+    cooking_time: 0,
+    cooked_item: null
   }
 
   var table = {
@@ -203,7 +239,8 @@ document.addEventListener("turbolinks:load", function() {
   function loop(timestamp) {
     var progress = timestamp - lastRender
 
-    update(progress)
+    moveRat(progress)
+    cookMeal(progress)
     draw()
 
     lastRender = timestamp
@@ -212,7 +249,30 @@ document.addEventListener("turbolinks:load", function() {
   var lastRender = 0
   window.requestAnimationFrame(loop)
 
+  function cookMeal(progress) {
+    if (furnaceHasAllIngredients()) {
+      cook_time_required = 5000
+      if (furnace.cooking_time < cook_time_required) {
+        furnace.cooking_time += progress
+      } else {
+        furnace.cooked_item = nextOrder().name
+        furnace.ingredients = []
+        furnace.cooking_time = 0
+      }
+    }
+  }
 
+  function furnaceHasAllIngredients() {
+    order = nextOrder()
+    if (order != undefined && furnace != undefined) {
+      for (var i in order.ingredients) {
+        var ingredient = order.ingredients[i]
+        if (furnace.ingredients.indexOf(ingredient) === -1)
+          return false
+      }
+      return true
+    }
+  }
 
   var keyMap = {
     39: 'right',

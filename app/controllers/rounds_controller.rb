@@ -1,4 +1,7 @@
 class RoundsController < ApplicationController
+
+  skip_before_action :verify_authenticity_token
+  
   def new
     @new_round = Round.new
     @chef = Chef.find(session[:chef_id]).name
@@ -17,7 +20,15 @@ class RoundsController < ApplicationController
     @images = Dir.chdir(Rails.root.join('app/assets/images')) do
       Dir.glob("ingredients/*.png")
     end
+    @recipes = Dir.chdir(Rails.root.join('app/assets/images')) do
+      Dir.glob("recipes/*.png")
+    end
   end
+
+  def result
+    @round = Round.find(params[:id])
+    @total_time = 0.0
+  end 
 
   def orders 
     @orders = Round.find(params[:id]).orders
@@ -27,11 +38,17 @@ class RoundsController < ApplicationController
           name:o.recipe.name, 
           ingredients: o.recipe.ingredients.map do |i| 
             i.name
-          end 
+          end, 
+          id:o.id
         }
       end 
     }
   render json: @orders_json
+  end 
+
+  def order_finished 
+    order = Order.find(params[:order_id])
+    order.update(time: params[:time])
   end 
 
   private 

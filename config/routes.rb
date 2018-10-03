@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :chef, only: [:new, :create]
   resources :rounds, only: [:new, :show, :create]
   get 'rounds/:id/orders', to:'rounds#orders'
+  get 'rounds/:id/result', to:'rounds#result'
+  post 'rounds/:id/order_finished', to:'rounds#order_finished'
   get 'chefs/login', to: 'chefs#login_page', as: "chefs_login_page"
   post 'chefs/login'
   post 'chefs/logout'

@@ -24,3 +24,8 @@
   <% ingredient_name = image.split("ingredients/").last.split(".png").first %>
   <%= image_tag image, id: ingredient_name + "_image", class: "invisible" %>
 <% end %>
+
+<% @recipes.each do |image| %>
+  <% recipe_name = image.split("recipes/").last.split(".png").first %>
+  <%= image_tag image, id: recipe_name + "_image", class: "invisible" %>
+<% end %>
