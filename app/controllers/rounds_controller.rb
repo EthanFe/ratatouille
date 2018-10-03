@@ -35,11 +35,12 @@ class RoundsController < ApplicationController
     @orders_json = {
       orders: @orders.map do |o|
         {
-          name:o.recipe.name, 
+          name: o.recipe.name, 
           ingredients: o.recipe.ingredients.map do |i| 
             i.name
           end, 
-          id:o.id
+          id: o.id,
+          image: o.recipe.image
         }
       end 
     }

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :chefs, only: [:new, :create]
   resources :rounds, only: [:new, :show, :create]
+  resources :orders, only: [:new, :create]
   get 'rounds/:id/orders', to:'rounds#orders'
   get 'rounds/:id/result', to:'rounds#result'
   post 'rounds/:id/order_finished', to:'rounds#order_finished'

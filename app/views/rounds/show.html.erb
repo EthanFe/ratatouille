@@ -1,16 +1,6 @@
-<h1>Rounds#show</h1>
-<p>Find me in app/views/rounds/show.html.erb</p>
-
 <div id=right_column>
     <h2>Recipe</h2>
-    <div id=recipe_text>
-    <% @orders.each do |o| %>
-        <h3><%=o.recipe.name%></h3>
-        <%o.recipe.ingredients.each do |i| %>
-            <p><%=i.name%></p>
-        <%end%>
-    <%end%>
-    </div>
+    <div id=recipe_text></div>
 </div>
 
 <p id=error_text></p>

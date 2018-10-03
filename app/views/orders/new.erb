@@ -1,0 +1,42 @@
+<h2>Make New Order</h2>
+<div id="main-content">
+  <div id="left-column">
+
+    <% if flash[:notice] %>
+      <p id=notice><%= flash[:notice] %></p>
+    <% end %>
+
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    <% end %>
+
+    <%= form_with model: @order do |form| %>
+      <%= form.text_field :name, placeholder: "Name" %>
+      <h3>Image:</h3>
+      <% @recipes.each do |image_path| %>
+        <% image_name = image_path.split("recipes/").last.split(".png").first %>
+        <p>
+        <%= form.radio_button :image, image_name %>
+        <%= image_tag image_path %>
+        </p>
+      <% end %>
+      <h3>Ingredients:</h3>
+      <% @ingredients.each do |ingredient| %>
+        <%= check_box_tag "order[ingredient_ids][]", ingredient.id %>
+        <%= label_tag(:ingredients, ingredient.name) %>
+        <br/>
+      <% end %>
+      <br/>
+      <%= form.submit %>
+    <% end %>
+  </div>
+  <div id="right-column">
+    <h4>Or order existing recipe:</h4>
+    <%= form_with model: @order do |form| %>
+      <p><%= collection_select(:order, :recipe_id, Recipe.all, :id, :name) %></p>
+      <%= form.submit %>
+    <% end %>
+  </div>
+</div>

@@ -2,15 +2,6 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-recipe_image_names = {
-    "Une Croque Madame": 'sandwich',
-    "Un Sandwich Avec Le Jambon": 'sandwich',
-    "Un Sandwich Avec Du Poulet": 'sandwich',
-    "L\'Omelette Du Fromage": 'dish',
-    "L\'Omelette Avec Du Poulet": 'dish',
-    "Quiche Des Epinards Avec Les Fraises": 'dish2',
-    "Quiche Des Epinards": 'dish2',
-}
 function findImage(image_id) {
     images_collection = document.images
     for(var i = 0; i < images_collection.length; i++) {

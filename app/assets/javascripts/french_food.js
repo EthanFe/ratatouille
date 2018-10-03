@@ -78,8 +78,7 @@ document.addEventListener("turbolinks:load", function() {
   }
 
   function dropItem() {
-    itemName = (rat_state.carrying.name == null) ? rat_state.carrying : rat_state.carrying.name
-    addError("You dropped the " + itemName + "!")
+    addError("You dropped the " + rat_state.carrying.name + "!")
     rat_state.carrying = null
   }
 
@@ -196,11 +195,12 @@ document.addEventListener("turbolinks:load", function() {
     }
 
     if (rat_state.carrying != null) {
-      if (rat_state.carrying['image'] != undefined) {
-        ctx.drawImage(rat_state.carrying['image'], rat_state.x, rat_state.y, 32, 32)
-      } else {
-        var image = findImage(recipe_image_names[rat_state.carrying] + "_image")
+      // if image is a string, then rat is carrying a meal, which is stored differently because bad code
+      if (typeof(rat_state.carrying['image']) === 'string') {
+        var image = findImage(rat_state.carrying.image + "_image")
         ctx.drawImage(image, rat_state.x, rat_state.y, 32, 32)
+      } else {
+        ctx.drawImage(rat_state.carrying['image'], rat_state.x, rat_state.y, 32, 32)
       }
     }
 
@@ -215,7 +215,7 @@ document.addEventListener("turbolinks:load", function() {
     }
 
     if (furnace.cooked_item != undefined) {
-      var image = findImage(recipe_image_names[furnace.cooked_item] + "_image")
+      var image = findImage(furnace.cooked_item.image + "_image")
       ctx.drawImage(image, furnace.x, furnace.y, 32, 32)
     }
 
@@ -302,7 +302,7 @@ document.addEventListener("turbolinks:load", function() {
       if (furnace.cooking_time < cook_time_required) {
         furnace.cooking_time += progress
       } else {
-        furnace.cooked_item = nextOrder().name
+        furnace.cooked_item = nextOrder()
         furnace.ingredients = []
         furnace.cooking_time = 0
       }
