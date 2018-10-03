@@ -7,3 +7,11 @@
 <br>
 <h2>Total Time Spent: <%=(@total_time/1000).to_s[0..4]%> Seconds</h2>
 <%= link_to "New Game", new_round_path %>
+<p></p>
+<%= link_to "Personal Stats", chef_path(@round.chef) %>
+<p></p>
+<%= link_to "Leaderboard", leaderboard_path%>
+<p></p>
+<%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
+  <input type=submit value='logout'>
+<% end %>
