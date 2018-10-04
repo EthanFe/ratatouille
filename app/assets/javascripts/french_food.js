@@ -199,7 +199,7 @@ document.addEventListener("turbolinks:load", function() {
 
     if (rat_state.carrying != null) {
       // if image is a string, then rat is carrying a meal, which is stored differently because bad code
-      if (typeof(rat_state.carrying['image']) === 'string') {
+      if (ratIsCarryingMeal()) {
         var image = findImage(rat_state.carrying.image + "_image")
         ctx.drawImage(image, rat_state.x, rat_state.y, 32, 32)
       } else {
@@ -209,13 +209,20 @@ document.addEventListener("turbolinks:load", function() {
 
     if (nextOrder() != undefined) {
       var text = document.getElementById('recipe_text')
-      text.innerHTML = nextOrder().name
+      text.innerHTML = nextOrder().name + "<br/>"
       for (var i in nextOrder().ingredients) {
         var ingredient_name = nextOrder().ingredients[i]
-        var ingredient_image_html = '<img src="' + ingredient_name + '.png" height="48" width="48">'
+        var ingredient_image_html = '<img src="/assets/ingredients/' + ingredient_name + '.png" height="32" width="32">'
         var html_class_string = isInFurnace(nextOrder().ingredients[i]) ? "<span class=completed>" : "<span>"
-        text.innerHTML += "<br />" + html_class_string + ingredient_name + "</span>";
+        text.innerHTML += html_class_string + ingredient_image_html + "</span>";
       }
+
+      if (furnaceHasAllIngredients() || furnace.cooked_item || ratIsCarryingMeal()) {
+        text.classList.add('completed');
+      } else {
+        text.classList.remove('completed');
+      }
+
       var titleText = document.getElementById('recipe_title')
       titleText.textContent = "Order " + (ordersCompleted + 1) + " of " + orders.length
     }
@@ -242,6 +249,10 @@ document.addEventListener("turbolinks:load", function() {
       ctx.arc(furnace.x + furnace_size / 2, furnace.y + furnace_size / 2, 24, Math.PI, (percent_cooked * Math.PI * 2) - Math.PI, false); // Outer circle
       ctx.stroke();
     }
+  }
+
+  function ratIsCarryingMeal() {
+    return rat_state.carrying != null && typeof(rat_state.carrying['image']) === 'string'
   }
 
   function nextOrder() {

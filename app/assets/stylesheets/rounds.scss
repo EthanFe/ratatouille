@@ -13,8 +13,12 @@
 	visibility: hidden;
 }
 
-.completed {
-  color: magenta;
+div.completed {
+  color: limegreen;
+}
+
+span.completed {
+  opacity: 0.3;
 }
 
 #error_text {
