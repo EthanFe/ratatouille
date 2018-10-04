@@ -143,6 +143,7 @@ document.addEventListener("turbolinks:load", function() {
 
 
   var rat_image = findImage("rat_image")
+  var jet_image = findImage("jet_image")
   var background_image = findImage("background_image")
   var furnace_image = findImage("furnace_image")
   var table_image = findImage("table_image")
@@ -252,7 +253,6 @@ document.addEventListener("turbolinks:load", function() {
     return furnace["ingredients"].indexOf(name) > -1
   }
 
-  
 
   var furnace = {
     x: width-75,
@@ -338,6 +338,7 @@ document.addEventListener("turbolinks:load", function() {
     38: 'up',
     40: 'down'
   }
+
   function keydown(event) {
     var key = keyMap[event.keyCode]
     rat_state.pressedKeys[key] = true
@@ -345,7 +346,15 @@ document.addEventListener("turbolinks:load", function() {
       spaceBarPressed()
     if (event.keyCode === 16)
       shiftPressed()
+    if(event.keyCode == 75)
+      kPressed()
   }
+
+  function kPressed(){
+    ctx.drawImage(jet_image, rat_state.x, rat_state.y, 70, 70)
+    playDangerZone()
+  }
+
   function keyup(event) {
     var key = keyMap[event.keyCode]
     rat_state.pressedKeys[key] = false

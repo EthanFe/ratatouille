@@ -42,3 +42,10 @@ function playFinishedAudio(){
     var x = document.getElementsByClassName('finished')[0]
     x.play()
 }
+
+function playDangerZone(){
+    y = document.getElementsByClassName('background')[0]
+    y.pause()
+    var x = document.getElementsByClassName('danger')[0]
+    x.play()
+}
