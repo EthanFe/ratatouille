@@ -1,7 +1,7 @@
-Recipe.destroy_all
-Ingredient.destroy_all
-Chef.destroy_all
-RecipeIngredient.destroy_all
+# Recipe.destroy_all
+# Ingredient.destroy_all
+# Chef.destroy_all
+# RecipeIngredient.destroy_all
 
 cheese = Ingredient.create(name:'cheese')
 bread = Ingredient.create(name:'bread')

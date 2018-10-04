@@ -145,15 +145,11 @@ document.addEventListener("turbolinks:load", function() {
     return currentClosest
   }
 
-
-
   var rat_image = findImage("rat_image")
   var jet_image = findImage("jet_image")
   var background_image = findImage("background_image")
   var furnace_image = findImage("furnace_image")
   var table_image = findImage("table_image")
-  
- 
   
   function moveRat(progress) {
     movespeed_modifier = shiftHeld ? 0.5 : 1
@@ -362,7 +358,7 @@ document.addEventListener("turbolinks:load", function() {
   }
 
   function kPressed(){
-    ctx.drawImage(jet_image, rat_state.x, rat_state.y, 70, 70)
+    rat_image = jet_image
     playDangerZone()
   }
 
