@@ -13,19 +13,24 @@
 	visibility: hidden;
 }
 
-#right_column {
-  float: right;
-
-  position: relative;
-  left: -38%; /* or right 50% */
-  text-align: left;
+div.completed {
+  color: limegreen;
 }
 
-.completed {
-  color: magenta;
+span.completed {
+  opacity: 0.3;
 }
 
 #error_text {
   color: red;
   font-weight: bold;
+}
+
+#main {
+	display: flex;
+	flex-direction: row;
+}
+
+#left_column {
+	width: 625px;
 }
