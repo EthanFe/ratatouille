@@ -1,16 +1,17 @@
 document.addEventListener("turbolinks:load", function() {
   // only run this file on pages with a canvas. this is really good code
   var canvas = document.getElementById("canvas")
-  var width = canvas.width
-  var height = canvas.clientHeight
   if (!canvas.getContext)
     return
+  var width = canvas.width
+  var height = canvas.clientHeight
   var ctx = canvas.getContext("2d")
   
   var orders = []
   var ingredients = {}
   var currentOrderStartTime = getCurrentTime()
   var ordersCompleted = 0
+  var timeRoundEnded = null
   var error = {
     message: '',
     timeSet: null,
@@ -22,10 +23,11 @@ document.addEventListener("turbolinks:load", function() {
   if (par_time_text != null)
     var par_time = parseFloat(par_time_text.textContent.split("Best Time: ")[1].split(" seconds (")[0]) * 1000
 
+  var current_music = null
+  playBackgroundAudio()
+
   function noscroll() { window.scrollTo(0,0); }
   window.addEventListener('scroll', noscroll);
-
-  playBackgroundAudio()
 
   getData(document.URL + "/orders", {})
   .then(data => setOrders(data)) // JSON-string from `response.json()` call
@@ -117,8 +119,7 @@ document.addEventListener("turbolinks:load", function() {
   }
 
   function winRound(){
-    var round_id = document.URL.split("/rounds/")[1]
-    window.location.replace(round_id + "/result");
+    timeRoundEnded = getCurrentTime()
   }
 
   function pickupMeal(){
@@ -329,6 +330,20 @@ document.addEventListener("turbolinks:load", function() {
     }
   }
 
+  function endRound() {
+    var fadeTime = 4000
+    if (timeRoundEnded != null) {
+      var timeSinceRoundEnded = getCurrentTime() - timeRoundEnded
+      if (timeSinceRoundEnded < fadeTime) {
+        current_music.volume = (0.2 + 0.8 * (1 - timeSinceRoundEnded / fadeTime))
+      } else {
+        timeRoundEnded = null
+        var round_id = document.URL.split("/rounds/")[1]
+        window.location.replace(round_id + "/result");
+      }
+    }
+  }
+
   function loop(timestamp) {
     var progress = timestamp - lastRender
 
@@ -336,6 +351,7 @@ document.addEventListener("turbolinks:load", function() {
     moveRat(progress)
     cookMeal(progress)
     draw()
+    endRound()
 
     lastRender = timestamp
     window.requestAnimationFrame(loop)
@@ -400,25 +416,25 @@ document.addEventListener("turbolinks:load", function() {
   function rPressed(){
     background_image = findImage("background_image")
     rat_image = findImage("rat_image")
-    playBackgroundAudio()
+    current_music = playBackgroundAudio()
   }
 
   function hPressed(){
     background_image = halo_image
     rat_image = chief_image
-    playHalo()
+    current_music = playHalo()
   }
 
   function kPressed(){
     background_image = sky_image
     rat_image = jet_image
-    playDangerZone()
+    current_music = playDangerZone()
   }
 
   function lPressed(){
     background_image = space_image
     rat_image = xwing_image
-    playStarWars()
+    current_music = playStarWars()
   }
 
 
