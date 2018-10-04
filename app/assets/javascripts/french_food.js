@@ -211,7 +211,8 @@ document.addEventListener("turbolinks:load", function() {
       var text = document.getElementById('recipe_text')
       text.innerHTML = nextOrder().name
       for (var i in nextOrder().ingredients) {
-        var ingredient_name = capitalize(nextOrder().ingredients[i])
+        var ingredient_name = nextOrder().ingredients[i]
+        var ingredient_image_html = '<img src="' + ingredient_name + '.png" height="48" width="48">'
         var html_class_string = isInFurnace(nextOrder().ingredients[i]) ? "<span class=completed>" : "<span>"
         text.innerHTML += "<br />" + html_class_string + ingredient_name + "</span>";
       }

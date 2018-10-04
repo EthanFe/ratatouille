@@ -15,7 +15,9 @@ class OrdersController < ApplicationController
     else
       recipe = Recipe.new(params.require(:order).permit(:name, :image))
       params[:order][:ingredient_ids].each do |ingredient_id|
-        recipe.ingredients.build(id: ingredient_id)
+        # i think build doesnt work here
+        # should be recipe.recipe_ingredients, probably
+        # recipe.ingredients.build(id: ingredient_id)
       end
       if recipe.valid?
         # recipe.save

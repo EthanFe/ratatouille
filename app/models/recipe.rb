@@ -5,7 +5,8 @@ class Recipe < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
   validates :image, presence: true
-  validate :must_have_ingredients
+  # validate :must_have_ingredients
+  # wow fuck this
 
   def must_have_ingredients
     unless ingredients.length > 0

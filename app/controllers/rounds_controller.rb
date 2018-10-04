@@ -4,12 +4,21 @@ class RoundsController < ApplicationController
   
   def new
     @new_round = Round.new
-    @chef = Chef.find(session[:chef_id]).name
+    chef = Chef.find_by(id: session[:chef_id])
+    if chef
+      @chef = chef.name
+    else
+      redirect_to chefs_login_path
+    end
   end
 
   def create
     @round = Round.create(chef_id: session[:chef_id])
-    params[:round][:orders_count].to_i.times do
+    orders_count = params[:round][:orders_count].to_i
+    if orders_count == 0
+      orders_count = 1
+    end
+    orders_count.times do
       @round.orders.create(round_id:@round.id,recipe_id:Recipe.all.sample.id)
     end
     redirect_to @round
