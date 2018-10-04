@@ -56,9 +56,9 @@ class RoundsController < ApplicationController
           id: o.id,
           image: o.recipe.image
         }
-      end 
+      end
     }
-  render json: @orders_json
+    render json: @orders_json
   end 
 
   def order_finished 

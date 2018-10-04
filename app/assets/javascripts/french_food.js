@@ -17,6 +17,11 @@ document.addEventListener("turbolinks:load", function() {
     duration: 5000
   }
 
+  var roundStartTime = getCurrentTime()
+  par_time_text = document.getElementById("par_time_test")
+  if (par_time_text != null)
+    var par_time = parseFloat(par_time_text.textContent.split("Best Time: ")[1].split(" seconds (")[0]) * 1000
+
   function noscroll() { window.scrollTo(0,0); }
   window.addEventListener('scroll', noscroll);
 
@@ -245,6 +250,21 @@ document.addEventListener("turbolinks:load", function() {
       ctx.beginPath();
       ctx.arc(furnace.x + furnace_size / 2, furnace.y + furnace_size / 2, 24, Math.PI, (percent_cooked * Math.PI * 2) - Math.PI, false); // Outer circle
       ctx.stroke();
+    }
+
+    // update time taken bar
+    var bar = document.getElementById("par_time_bar")
+    // if par time is present, then bar will be rendered in view
+    if (bar != null) {
+      var bar_width = bar.width
+      var bar_height = bar.clientHeight
+      var bar_ctx = bar.getContext("2d")
+      bar_ctx.fillStyle = "blue";
+
+      var percent_filled = (getCurrentTime() - roundStartTime) / par_time
+      bar_ctx.clearRect(0, 0, bar_width, bar_height);
+      bar_ctx.fillRect(0, 0, bar_width * (1 - percent_filled), bar_height);
+      // bar_ctx.strokeRect(50, 50, 50, 50);
     }
   }
 
