@@ -32,3 +32,13 @@ function playBackgroundAudio(){
     var x = document.getElementsByClassName('background')[0]
     x.play()
 }
+
+function playCookingAudio(){
+    var x = document.getElementsByClassName('cooking')[0]
+    x.play()
+}
+
+function playFinishedAudio(){
+    var x = document.getElementsByClassName('finished')[0]
+    x.play()
+}
