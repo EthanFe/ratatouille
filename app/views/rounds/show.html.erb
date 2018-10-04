@@ -3,6 +3,12 @@
     <canvas id="canvas" width=600 height=600></canvas>
   </div>
   <div id="right_column">
+      <% if @par_time %>
+        <div>
+          <h2 id="par_time_text">Best Time: <%= "#{@par_time} seconds (#{@par_time_chef})" %></h2>
+          <canvas id="par_time_bar" width=300 height=25></canvas>
+        </div>
+      <% end %>
       <h2 id="recipe_title"></h2>
       <div id="recipe_text"></div>
       <p id=error_text></p>
