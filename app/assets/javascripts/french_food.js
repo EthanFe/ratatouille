@@ -64,6 +64,7 @@ document.addEventListener("turbolinks:load", function() {
       if(isNearFurnace() == true){
         furnace['ingredients'].push(rat_state.carrying.name)
         rat_state.carrying = null
+        playCookingAudio()
       }
       else if(isNearTable() == true){
         finishOrder();
@@ -100,12 +101,12 @@ document.addEventListener("turbolinks:load", function() {
   }
 
   function isNearTable(){
-    return (distance(rat_state.x,rat_state.y,table.x, table.y) < 60)
+    return (distance(rat_state.x,rat_state.y,table.x, table.y) < 65)
   }
 
   function isNearFurnace(){
     var d = distance(rat_state.x,rat_state.y,furnace.x, furnace.y)
-    return (d < 60)
+    return (d < 65)
   }
 
   function pickupIngredient(ingredient) {
@@ -259,11 +260,16 @@ document.addEventListener("turbolinks:load", function() {
       if (furnace.cooking_time < cook_time_required) {
         furnace.cooking_time += progress
       } else {
+        finishedCooking()
+      }
+    }
+  }
+
+  function finishedCooking(){
         furnace.cooked_item = nextOrder().name
         furnace.ingredients = []
         furnace.cooking_time = 0
-      }
-    }
+        playFinishedAudio()
   }
 
   function furnaceHasAllIngredients() {
