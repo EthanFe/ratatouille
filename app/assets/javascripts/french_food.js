@@ -15,6 +15,8 @@ document.addEventListener("turbolinks:load", function() {
     duration: 5000
   }
 
+  playBackgroundAudio()
+
   getData(document.URL + "/orders", {})
   .then(data => setOrders(data)) // JSON-string from `response.json()` call
   .catch(error => console.error(error));

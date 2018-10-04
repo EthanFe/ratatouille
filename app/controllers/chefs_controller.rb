@@ -20,8 +20,13 @@ class ChefsController < ApplicationController
     end
   end
 
-  def login_page
+  def leaderboard
+    @chefs_played = Chef.all.select{|c| c.didNotPlay? == false}
+    @chefs_played = @chefs_played.sort_by{|c| c.averageTime}
+    @chefs_not_played = Chef.all.select{|c| c.didNotPlay? == true}
+  end
 
+  def login_page
   end
 
   def login
@@ -40,4 +45,9 @@ class ChefsController < ApplicationController
     flash[:notice] = "Successfully logged out"
     redirect_to :chefs_login_page
   end
+
+  def show 
+    @chef = Chef.find(params[:id])
+  end 
+  
 end

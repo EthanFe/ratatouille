@@ -18,3 +18,17 @@ function distance(x1, y1, x2, y2) {
 function getCurrentTime() {
     return new Date().valueOf()
 }
+
+function playGoodAudio(){
+    var x = document.getElementsByClassName('play')[0]
+    x.play()
+}
+function playBadAudio(){
+    var x = document.getElementsByClassName('bad')[0]
+    x.play()
+}
+
+function playBackgroundAudio(){
+    var x = document.getElementsByClassName('background')[0]
+    x.play()
+}
