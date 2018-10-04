@@ -164,7 +164,7 @@ document.addEventListener("turbolinks:load", function() {
   var table_image = findImage("table_image")
   
   function moveRat(progress) {
-    movespeed_modifier = shiftHeld ? 0.5 : 1
+    movespeed_modifier = shiftHeld ? 1 : 0.5
     movement = movespeed_modifier * progress
     if (rat_state.pressedKeys.left) {
       rat_state.x -= movement
