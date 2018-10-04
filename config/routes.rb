@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'rounds#new'
   resources :rounds, only: [:new, :show, :create]
   resources :orders, only: [:new, :create]
   get 'rounds/:id/orders', to:'rounds#orders'

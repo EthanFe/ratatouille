@@ -23,8 +23,7 @@ document.addEventListener("turbolinks:load", function() {
   if (par_time_text != null)
     var par_time = parseFloat(par_time_text.textContent.split("Best Time: ")[1].split(" seconds (")[0]) * 1000
 
-  var current_music = null
-  playBackgroundAudio()
+  var current_music = playBackgroundAudio()
 
   function noscroll() { window.scrollTo(0,0); }
   window.addEventListener('scroll', noscroll);
@@ -339,6 +338,7 @@ document.addEventListener("turbolinks:load", function() {
       } else {
         timeRoundEnded = null
         var round_id = document.URL.split("/rounds/")[1]
+        console.log("redirecting to " + round_id + "/result")
         window.location.replace(round_id + "/result");
       }
     }

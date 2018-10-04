@@ -15,7 +15,7 @@ class RoundsController < ApplicationController
   def create
     @round = Round.create(chef_id: session[:chef_id])
     orders_count = params[:round][:orders_count].to_i
-    orders_count = [orders_count, 15].max # limit orders to 15 so michael doesn't break everything
+    orders_count = [orders_count, 15].min # limit orders to 15 so michael doesn't break everything
     if orders_count == 0
       orders_count = 1
     end
