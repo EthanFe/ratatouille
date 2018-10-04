@@ -210,7 +210,7 @@ document.addEventListener("turbolinks:load", function() {
       for (var i in nextOrder().ingredients) {
         var ingredient_name = nextOrder().ingredients[i]
         var ingredient_image_html = '<img src="/assets/ingredients/' + ingredient_name + '.png" height="32" width="32">'
-        var html_class_string = isInFurnace(nextOrder().ingredients[i]) ? "<span class=completed>" : "<span>"
+        var html_class_string = isInFurnace(nextOrder().ingredients[i]) || furnace.cooked_item || ratIsCarryingMeal() ? "<span class=completed>" : "<span>"
         text.innerHTML += html_class_string + ingredient_image_html + "</span>";
       }
 

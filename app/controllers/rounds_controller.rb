@@ -25,7 +25,12 @@ class RoundsController < ApplicationController
   end
 
   def show
-    @orders = Round.find(params[:id]).orders 
+    @orders = Round.find(params[:id]).orders
+    fastest_round = Round.fastest_round(@orders.length)
+    if fastest_round
+      @par_time = '%.2f' % (fastest_round.total_time.to_f / 1000)
+      @par_time_chef = fastest_round.chef.name
+    end
     @images = Dir.chdir(Rails.root.join('app/assets/images')) do
       Dir.glob("ingredients/*.png")
     end
