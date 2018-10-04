@@ -1,4 +1,5 @@
 <h1><%=@chef.name%>'s Stats</h1>
+<%if(@chef.totalOrders > 0)%>
 <h2>Total Number of Rounds: <%=@chef.rounds.length%></h2>
 <h2>Total Number of Orders Completed: <%=@chef.totalOrders%></h2>
 <h2>Average Cooking Time: <%=(@chef.averageTime/1000).to_s[0..5]%> Seconds Per Order</h2>
@@ -7,14 +8,18 @@
 <%index = 0%>
 <%@chef.rounds.each do |r| %>
     <%if r.orders.length == 1%>
-    <h2>Round <%=index+=1%>  (<%=r.orders.length%> Order)</h2>
+        <h2>Round <%=index+=1%>  (<%=r.orders.length%> Order)</h2>
     <%else%>
-    <h2>Round <%=index+=1%> (<%=r.orders.length%> Orders)</h2>
+        <h2>Round <%=index+=1%> (<%=r.orders.length%> Orders)</h2>
     <%end%>
     <%r.orders.each do |o|%>
         <%orderIndex = 0%>
-        <h3><%=orderIndex+1%>.) <%=o.recipe.name%> (<%=o.time/1000.0%> Seconds)</h3>
+        <h3><%=orderIndex+=1%>.) <%=o.recipe.name%> (<%=o.time/1000.0%> Seconds)</h3>
     <%end%>
+<%end%>
+
+<%else%>
+<h2>Has Not Played Yet. </h2>
 <%end%>
 
 <%= link_to "New Game", new_round_path %>
