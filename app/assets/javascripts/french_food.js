@@ -1,10 +1,12 @@
-function noscroll(){
-  window.scrollTo(0,0);
-}
-
-window.addEventListener('scroll', noscroll);
-
 document.addEventListener("turbolinks:load", function() {
+  // only run this file on pages with a canvas. this is really good code
+  var canvas = document.getElementById("canvas")
+  var width = canvas.width
+  var height = canvas.clientHeight
+  if (!canvas.getContext)
+    return
+  var ctx = canvas.getContext("2d")
+  
   var orders = []
   var ingredients = {}
   var currentOrderStartTime = getCurrentTime()
@@ -14,6 +16,9 @@ document.addEventListener("turbolinks:load", function() {
     timeSet: null,
     duration: 5000
   }
+
+  function noscroll() { window.scrollTo(0,0); }
+  window.addEventListener('scroll', noscroll);
 
   playBackgroundAudio()
 
@@ -179,11 +184,6 @@ document.addEventListener("turbolinks:load", function() {
       rat_state.y = 0
     }
   }
-
-  var canvas = document.getElementById("canvas")
-  var width = canvas.width
-  var height = canvas.height
-  var ctx = canvas.getContext("2d")
 
   function draw() {
     var furnace_size = 78

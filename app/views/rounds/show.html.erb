@@ -1,11 +1,14 @@
-<div id=right_column>
-    <h2 id="recipe_title"></h2>
-    <div id="recipe_text"></div>
+<div id="main">
+  <div id="left_column">
+    <canvas id="canvas" width=600 height=600></canvas>
+  </div>
+  <div id="right_column">
+      <h2 id="recipe_title"></h2>
+      <div id="recipe_text"></div>
+      <p id=error_text></p>
+  </div>
 </div>
 
-<p id=error_text></p>
-
-<canvas id="canvas" width=600 height=600></canvas>
 <%= audio_tag "music.mp3", class:'background'%>
 <%= audio_tag "cooking.mp3", class:'cooking'%>
 <%= audio_tag "finished.mp3", class:'finished'%>
