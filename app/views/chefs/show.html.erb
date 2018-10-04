@@ -12,9 +12,8 @@
     <%else%>
         <h2>Round <%=index+=1%> (<%=r.orders.length%> Orders)</h2>
     <%end%>
-    <%r.orders.each do |o|%>
-        <%orderIndex = 0%>
-        <h3><%=orderIndex+=1%>.) <%=o.recipe.name%> (<%=o.time/1000.0%> Seconds)</h3>
+    <%r.orders.each_with_index do |o, index|%>
+        <h3><%= index + 1 %>.) <%=o.recipe.name%> (<%=o.time/1000.0%> Seconds)</h3>
     <%end%>
 <%end%>
 
