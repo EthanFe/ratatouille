@@ -18,7 +18,7 @@ document.addEventListener("turbolinks:load", function() {
   }
 
   var roundStartTime = getCurrentTime()
-  par_time_text = document.getElementById("par_time_test")
+  var par_time_text = document.getElementById("par_time_text")
   if (par_time_text != null)
     var par_time = parseFloat(par_time_text.textContent.split("Best Time: ")[1].split(" seconds (")[0]) * 1000
 
@@ -252,7 +252,10 @@ document.addEventListener("turbolinks:load", function() {
       ctx.stroke();
     }
 
-    // update time taken bar
+    updateParTimeDisplay()
+  }
+
+  function updateParTimeDisplay() {
     var bar = document.getElementById("par_time_bar")
     // if par time is present, then bar will be rendered in view
     if (bar != null) {
@@ -265,6 +268,11 @@ document.addEventListener("turbolinks:load", function() {
       bar_ctx.clearRect(0, 0, bar_width, bar_height);
       bar_ctx.fillRect(0, 0, bar_width * (1 - percent_filled), bar_height);
       // bar_ctx.strokeRect(50, 50, 50, 50);
+
+      if (percent_filled >= 1)
+      {
+        par_time_text.classList.add('over_time');
+      }
     }
   }
 
