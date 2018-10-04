@@ -62,3 +62,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "pry", "~> 0.11.3"
+
+gem "pg", "~> 1.1"

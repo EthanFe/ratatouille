@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2018_10_03_203644) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "chefs", force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
@@ -26,8 +29,8 @@ ActiveRecord::Schema.define(version: 2018_10_03_203644) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "round_id"
-    t.integer "recipe_id"
+    t.bigint "round_id"
+    t.bigint "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "time"
@@ -36,8 +39,8 @@ ActiveRecord::Schema.define(version: 2018_10_03_203644) do
   end
 
   create_table "recipe_ingredients", force: :cascade do |t|
-    t.integer "ingredient_id"
-    t.integer "recipe_id"
+    t.bigint "ingredient_id"
+    t.bigint "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
@@ -52,10 +55,15 @@ ActiveRecord::Schema.define(version: 2018_10_03_203644) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.integer "chef_id"
+    t.bigint "chef_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chef_id"], name: "index_rounds_on_chef_id"
   end
 
+  add_foreign_key "orders", "recipes"
+  add_foreign_key "orders", "rounds"
+  add_foreign_key "recipe_ingredients", "ingredients"
+  add_foreign_key "recipe_ingredients", "recipes"
+  add_foreign_key "rounds", "chefs"
 end
