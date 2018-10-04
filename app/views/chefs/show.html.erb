@@ -1,3 +1,4 @@
+
 <h1><%=@chef.name%>'s Stats</h1>
 <%if(@chef.totalOrders > 0)%>
 <h2>Total Number of Rounds: <%=@chef.rounds.length%></h2>
@@ -6,7 +7,7 @@
 <br>
 <h1>Rounds Completed:</h1>
 <%index = 0%>
-<%@chef.rounds.each do |r| %>
+<%@chef.validRounds.each do |r| %>
     <%if r.orders.length == 1%>
         <h2>Round <%=index+=1%>  (<%=r.orders.length%> Order)</h2>
     <%else%>
