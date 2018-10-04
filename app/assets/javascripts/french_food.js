@@ -212,9 +212,11 @@ document.addEventListener("turbolinks:load", function() {
       text.innerHTML = nextOrder().name
       for (var i in nextOrder().ingredients) {
         var ingredient_name = capitalize(nextOrder().ingredients[i])
-        var html_class_string = isInFurnace(nextOrder().ingredients[i]) ? "<div class=completed>" : ""
-        text.innerHTML += "<br />" + html_class_string + ingredient_name + "</div>";
+        var html_class_string = isInFurnace(nextOrder().ingredients[i]) ? "<span class=completed>" : "<span>"
+        text.innerHTML += "<br />" + html_class_string + ingredient_name + "</span>";
       }
+      var titleText = document.getElementById('recipe_title')
+      titleText.textContent = "Order " + (ordersCompleted + 1) + " of " + orders.length
     }
 
     if (furnace.cooked_item != undefined) {
