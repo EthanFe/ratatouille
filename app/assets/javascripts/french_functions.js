@@ -29,6 +29,12 @@ function playBadAudio(){
 }
 
 function playBackgroundAudio(){
+    var y = document.getElementsByClassName('danger')[0]
+    y.pause()
+    var a = document.getElementsByClassName('halo')[0]
+    a.pause()
+    var z = document.getElementsByClassName('starwars')[0]
+    z.pause()
     var x = document.getElementsByClassName('background')[0]
     x.play()
 }
@@ -43,9 +49,36 @@ function playFinishedAudio(){
     x.play()
 }
 
+function playDeliveredAudio(){
+    var x = document.getElementsByClassName('delivered')[0]
+    x.play()
+}
+
 function playDangerZone(){
-    y = document.getElementsByClassName('background')[0]
+    var y = document.getElementsByClassName('background')[0]
     y.pause()
+    var z = document.getElementsByClassName('starwars')[0]
+    z.pause()
     var x = document.getElementsByClassName('danger')[0]
     x.play()
+}
+
+function playStarWars(){
+    var y = document.getElementsByClassName('background')[0]
+    y.pause()
+    var x = document.getElementsByClassName('danger')[0]
+    x.pause()
+    var z = document.getElementsByClassName('starwars')[0]
+    z.play()
+}
+
+function playHalo(){
+    var y = document.getElementsByClassName('danger')[0]
+    y.pause()
+    var z = document.getElementsByClassName('starwars')[0]
+    z.pause()
+    var x = document.getElementsByClassName('background')[0]
+    x.pause()
+    var a = document.getElementsByClassName('halo')[0]
+    a.play()
 }

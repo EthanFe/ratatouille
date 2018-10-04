@@ -104,6 +104,7 @@ document.addEventListener("turbolinks:load", function() {
     if (ordersCompleted + 1 >= orders.length) {
       winRound()
     } else {
+      playDeliveredAudio()
       ordersCompleted++
       currentOrderStartTime = getCurrentTime()
       rat_state.carrying = null
@@ -147,6 +148,11 @@ document.addEventListener("turbolinks:load", function() {
 
   var rat_image = findImage("rat_image")
   var jet_image = findImage("jet_image")
+  var chief_image = findImage("chief_image")
+  var xwing_image = findImage("xwing_image")
+  var space_image = findImage("space_image")
+  var sky_image = findImage("sky_image")
+  var halo_image = findImage("halo_image")
   var background_image = findImage("background_image")
   var furnace_image = findImage("furnace_image")
   var table_image = findImage("table_image")
@@ -353,14 +359,41 @@ document.addEventListener("turbolinks:load", function() {
       spaceBarPressed()
     if (event.keyCode === 16)
       shiftPressed()
+    if(event.keyCode == 72)
+      hPressed()
+    if(event.keyCode == 82)
+      rPressed()
     if(event.keyCode == 75)
       kPressed()
+    if(event.keyCode == 76)
+      lPressed()
+  }
+
+  function rPressed(){
+    background_image = findImage("background_image")
+    rat_image = findImage("rat_image")
+    playBackgroundAudio()
+  }
+
+  function hPressed(){
+    background_image = halo_image
+    rat_image = chief_image
+    playHalo()
   }
 
   function kPressed(){
+    background_image = sky_image
     rat_image = jet_image
     playDangerZone()
   }
+
+  function lPressed(){
+    background_image = space_image
+    rat_image = xwing_image
+    playStarWars()
+  }
+
+
 
   function keyup(event) {
     var key = keyMap[event.keyCode]
