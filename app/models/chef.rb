@@ -6,7 +6,7 @@ class Chef < ApplicationRecord
 
   def totalTime 
     time = 0.0
-    self.rounds.each do |r|
+    self.validRounds.each do |r|
       r.orders.each do |o|
         time += o.time
       end 
@@ -14,9 +14,17 @@ class Chef < ApplicationRecord
     time 
   end
 
+  def validRounds 
+    self.rounds.select do |r| 
+      r.orders.all? do |o| 
+        o.time != nil
+      end
+    end 
+  end 
+
   def totalOrders
     orders = 0
-    self.rounds.each do |r|
+    self.validRounds.each do |r|
       orders += r.orders.length
     end
     orders
