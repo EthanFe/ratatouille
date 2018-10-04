@@ -12,6 +12,8 @@
 <br/>
 <%= link_to "New Game", new_round_path %>
 <p></p>
+<%= link_to "Personal Stats", chef_path(session[:chef_id]) %>
+<p></p>
 <%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
   <input type=submit value='logout'>
 <% end %>

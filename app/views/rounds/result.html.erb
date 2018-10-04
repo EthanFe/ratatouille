@@ -5,6 +5,8 @@
 <%@total_time += o.time%>
 <%end%>
 <br>
+<h2>Average Cooking Time: <%=(@total_time/1000/@round.orders.length).to_s[0..4]%> Seconds Per Order</h2>
+<br>
 <h2>Total Time Spent: <%=(@total_time/1000).to_s[0..4]%> Seconds</h2>
 <%= link_to "New Game", new_round_path %>
 <p></p>
@@ -13,7 +15,7 @@
 <%= link_to "Leaderboard", leaderboard_path%>
 <p></p>
 
-<%if ((@total_time/1000)/@round.orders.length) < 16.0 %>
+<%if ((@total_time/1000)/@round.orders.length) < 20 %>
 <%= audio_tag "good.mp3", class:'play'%>
 <button onclick="playGoodAudio()" type="button">Feedback</button>
 </p>
