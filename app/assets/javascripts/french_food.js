@@ -1,7 +1,7 @@
 document.addEventListener("turbolinks:load", function() {
   // only run this file on pages with a canvas. this is really good code
   var canvas = document.getElementById("canvas")
-  if (!canvas.getContext)
+  if (canvas == null || !canvas.getContext)
     return
   var width = canvas.width
   var height = canvas.clientHeight
@@ -107,13 +107,13 @@ document.addEventListener("turbolinks:load", function() {
     .then(data => console.log("successfully sent a lettuce omelette or whatever")) // JSON-string from `response.json()` call
     .catch(error => console.error(error));
 
+    playDeliveredAudio()
+    ordersCompleted++
+    currentOrderStartTime = getCurrentTime()
+    rat_state.carrying = null
+
     if (ordersCompleted + 1 >= orders.length) {
       winRound()
-    } else {
-      playDeliveredAudio()
-      ordersCompleted++
-      currentOrderStartTime = getCurrentTime()
-      rat_state.carrying = null
     }
   }
 
@@ -235,6 +235,10 @@ document.addEventListener("turbolinks:load", function() {
 
       var titleText = document.getElementById('recipe_title')
       titleText.textContent = "Order " + (ordersCompleted + 1) + " of " + orders.length
+    } else if (timeRoundEnded != null) { // if all orders have already been completed
+      document.getElementById('recipe_text').innerHTML = ""
+      var titleText = document.getElementById('recipe_title')
+      titleText.textContent = "Round Finished!"
     }
 
     if (furnace.cooked_item != undefined) {
