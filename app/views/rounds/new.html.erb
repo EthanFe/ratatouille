@@ -1,11 +1,13 @@
-<% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
+<% if flash[:notice] %></div>
+  <div class="success-flash"><%= flash[:notice] %></div>
 <% end %>
 
-<h1>Start new Game</h1> 
-<h2>Signed in as: <%=@chef%></h2>
+<h1>Start New Game</h1>
+<h3>Signed in as: <span class="chef-name"><%=@chef.titleize%><span></h3>
 <%=form_with model:@new_round do |f|%>
-<h2>How many orders do you want to cook? (1-15) <%= f.number_field :orders_count %></h2>
+<h4>How many orders do you want to cook? (1-15)</h4>
+<br>
+<%= f.number_field :orders_count %>
 <%=f.submit%>
 <%end%>
 </p>
@@ -13,20 +15,19 @@
 </p>
 <%= link_to "Leaderboard", leaderboard_path %>
 </p>
+<p>
+<p>
+<h2>Controls</h2>
+<ul>
+  <li><strong>Movement</strong> - Arrows(Up, Down, Left, Right)</li>
+  <li><strong>Pick Up / Drop Ingredient</strong> - Press Spacebar</li>
+  <li><strong>Turbo Mode</strong> - Hold Down Shift</li>
+  <li><strong>Top Gun Mode</strong> - Press K</li>
+  <li><strong>Star Wars Mode</strong> - Press L</li>
+  <li><strong>Halo Mode</strong> - Press H</li>
+  <li><strong>Rat Mode</strong> - Press R</li>
+</ul>
+<br>
 <%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
   <input type=submit value='logout'>
 <% end %>
-<p>
-<p>
-<h1>Controls</h1>
-<h2>Movement - Arrows(Up, Down, Left, Right)</h2>
-<h2>Pick Up / Drop Ingredient - Press Spacebar</h2>
-<h2>Turbo Mode - Hold Down Shift</h2>
-<h2>Top Gun Mode - Press K</h2>
-<h2>Star Wars Mode - Press L</h2>
-<h2>Mortal Kombat Mode - Press M</h2>
-<h2>Halo Mode - Press H</h2>
-<h2>Ratatoullie Mode - Press R</h2>
-
-
-
