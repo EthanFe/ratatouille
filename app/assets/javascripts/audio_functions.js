@@ -45,6 +45,8 @@ function playDangerZone(){
   y.pause()
   var z = document.getElementsByClassName('starwars')[0]
   z.pause()
+  var h = document.getElementsByClassName('halo')[0]
+  h.pause()
   var x = document.getElementsByClassName('danger')[0]
   x.play()
   return x
@@ -57,6 +59,8 @@ function playStarWars(){
   y.pause()
   var x = document.getElementsByClassName('danger')[0]
   x.pause()
+  var h = document.getElementsByClassName('halo')[0]
+  h.pause()
   var z = document.getElementsByClassName('starwars')[0]
   z.play()
   return z
