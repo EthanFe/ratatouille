@@ -82,7 +82,7 @@ document.addEventListener("turbolinks:load", function() {
         rat_state.carrying = null
         playCookingAudio()
       }
-      else if(isNearTable() == true){
+      else if(ratIsCarryingMeal() && isNearTable() == true){
         finishOrder();
       }
       else {
