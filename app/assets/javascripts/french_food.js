@@ -108,13 +108,12 @@ document.addEventListener("turbolinks:load", function() {
     .catch(error => console.error(error));
 
     playDeliveredAudio()
-    ordersCompleted++
     currentOrderStartTime = getCurrentTime()
     rat_state.carrying = null
-
-    if (ordersCompleted + 1 >= orders.length) {
+    if (ordersCompleted + 1 >= orders.length)
       winRound()
-    }
+
+    ordersCompleted++
   }
 
   function winRound(){
