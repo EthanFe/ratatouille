@@ -2,10 +2,10 @@
   <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 
-<h1>Start new Game</h1>
+<h1>Start new Game</h1> 
 <h2>Signed in as: <%=@chef%></h2>
 <%=form_with model:@new_round do |f|%>
-<h2>How many orders do you want to cook? <%= f.number_field :orders_count %></h2>
+<h2>How many orders do you want to cook? (1-15) <%= f.number_field :orders_count %></h2>
 <%=f.submit%>
 <%end%>
 </p>
@@ -16,4 +16,16 @@
 <%= form_tag ({controller: 'chefs', action: 'logout', method: 'post'}) do %>
   <input type=submit value='logout'>
 <% end %>
+<p>
+<p>
+<h1>Controls</h1>
+<h2>Movement - Arrows(Up, Down, Left, Right)</h2>
+<h2>Pick Up / Drop Ingredient - Press Spacebar</h2>
+<h2>Turbo Mode - Hold Down Shift</h2>
+<h2>Top Gun Mode - Press K</h2>
+<h2>Star Wars Mode - Press L</h2>
+<h2>Halo Mode - Press H</h2>
+<h2>Rat Mode - Press R</h2>
+
+
 
