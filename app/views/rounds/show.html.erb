@@ -5,7 +5,7 @@
   <div id="right_column">
       <% if @par_time %>
         <div>
-          <h2 id="par_time_text">Best Time: <%= "#{@par_time} seconds (#{@par_time_chef})" %></h2>
+          <h3 id="par_time_text">Best Time: <br><%= "#{@par_time} seconds (#{@par_time_chef.titleize})" %></h3>
           <canvas id="par_time_bar" width=300 height=25></canvas>
         </div>
       <% end %>
@@ -14,7 +14,7 @@
       <p id=error_text></p>
   </div>
 </div>
-
+<br>
 <%= audio_tag "music.mp3", class:'background'%>
 <%= audio_tag "cooking.mp3", class:'cooking'%>
 <%= audio_tag "finished.mp3", class:'finished'%>

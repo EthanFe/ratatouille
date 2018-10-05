@@ -1,5 +1,4 @@
-
-<h1><%=@chef.name%>'s Stats</h1>
+<h1><%=@chef.name.titleize%>'s Stats</h1>
 <%if(@chef.totalOrders > 0)%>
 <h2>Total Number of Rounds: <%=@chef.rounds.length%></h2>
 <h2>Total Number of Orders Completed: <%=@chef.totalOrders%></h2>
@@ -19,9 +18,9 @@
 <%end%>
 
 <%else%>
-<h2>Has Not Played Yet. </h2>
+<h5 style="color: red; font-style: oblique;">Has Not Played Yet.</h5>
 <%end%>
-
+<br>
 <%= link_to "New Game", new_round_path %>
 <p></p>
 <%= link_to "Leaderboard", leaderboard_path%>
