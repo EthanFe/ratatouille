@@ -1,7 +1,7 @@
 document.addEventListener("turbolinks:load", function() {
   // only run this file on pages with a canvas. this is really good code
   var canvas = document.getElementById("canvas")
-  if (!canvas.getContext)
+  if (canvas == null || !canvas.getContext)
     return
   var width = canvas.width
   var height = canvas.clientHeight
@@ -23,8 +23,7 @@ document.addEventListener("turbolinks:load", function() {
   if (par_time_text != null)
     var par_time = parseFloat(par_time_text.textContent.split("Best Time: ")[1].split(" seconds (")[0]) * 1000
 
-  var current_music = null
-  playBackgroundAudio()
+  var current_music = playBackgroundAudio()
 
   function noscroll() { window.scrollTo(0,0); }
   window.addEventListener('scroll', noscroll);
@@ -108,14 +107,13 @@ document.addEventListener("turbolinks:load", function() {
     .then(data => console.log("successfully sent a lettuce omelette or whatever")) // JSON-string from `response.json()` call
     .catch(error => console.error(error));
 
-    if (ordersCompleted + 1 >= orders.length) {
+    playDeliveredAudio()
+    currentOrderStartTime = getCurrentTime()
+    rat_state.carrying = null
+    if (ordersCompleted + 1 >= orders.length)
       winRound()
-    } else {
-      playDeliveredAudio()
-      ordersCompleted++
-      currentOrderStartTime = getCurrentTime()
-      rat_state.carrying = null
-    }
+
+    ordersCompleted++
   }
 
   function winRound(){
@@ -162,6 +160,8 @@ document.addEventListener("turbolinks:load", function() {
   var background_image = findImage("background_image")
   var furnace_image = findImage("furnace_image")
   var table_image = findImage("table_image")
+  var mk_image = findImage("mk_image")
+  var scorpion_image = findImage("scorpion_image")
   
   function moveRat(progress) {
     movespeed_modifier = shiftHeld ? 1 : 0.5
@@ -234,6 +234,10 @@ document.addEventListener("turbolinks:load", function() {
 
       var titleText = document.getElementById('recipe_title')
       titleText.textContent = "Order " + (ordersCompleted + 1) + " of " + orders.length
+    } else if (timeRoundEnded != null) { // if all orders have already been completed
+      document.getElementById('recipe_text').innerHTML = ""
+      var titleText = document.getElementById('recipe_title')
+      titleText.textContent = "Round Finished!"
     }
 
     if (furnace.cooked_item != undefined) {
@@ -339,6 +343,7 @@ document.addEventListener("turbolinks:load", function() {
       } else {
         timeRoundEnded = null
         var round_id = document.URL.split("/rounds/")[1]
+        console.log("redirecting to " + round_id + "/result")
         window.location.replace(round_id + "/result");
       }
     }
@@ -411,6 +416,8 @@ document.addEventListener("turbolinks:load", function() {
       kPressed()
     if(event.keyCode == 76)
       lPressed()
+    if(event.keyCode == 77)
+      mPressed()
   }
 
   function rPressed(){
@@ -435,6 +442,12 @@ document.addEventListener("turbolinks:load", function() {
     background_image = space_image
     rat_image = xwing_image
     current_music = playStarWars()
+  }
+
+  function mPressed(){
+    background_image = mk_image
+    rat_image = scorpion_image
+    current_music = playMK()
   }
 
 

@@ -17,11 +17,11 @@
 
 <%if ((@total_time/1000)/@round.orders.length) < 20 %>
 <%= audio_tag "good.mp3", class:'play'%>
-<button onclick="playGoodAudio()" type="button">Feedback</button>
+<button onclick="playGoodAudio()" type="button">Feedback (Profane Language)</button>
 </p>
 <%else%>
 <%= audio_tag "bad.mp3", class:'bad'%>
-<button onclick="playBadAudio()" type="button">Feedback</button>
+<button onclick="playBadAudio()" type="button">Feedback (Profane Language)</button>
 </p>
 <%end%>
 

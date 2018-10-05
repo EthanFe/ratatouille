@@ -7,6 +7,7 @@
 <%= form_tag chefs_login_path do %>
   <div><%= text_field_tag :username,nil, placeholder:'Username' %></div>
   <div><%= password_field_tag :password,nil, placeholder:'Password' %></div>
+  <p>
   <div><%= submit_tag "Login" %></div>
 <% end %>
 
