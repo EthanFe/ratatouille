@@ -15,3 +15,15 @@
   color: green;
   size: 20px;
 }
+
+span.completed {
+  opacity: 0.3;
+}
+
+.over_time {
+  color: red;
+}
+
+div.completed {
+  color: limegreen;
+}
