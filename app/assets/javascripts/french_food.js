@@ -108,13 +108,12 @@ document.addEventListener("turbolinks:load", function() {
     .catch(error => console.error(error));
 
     playDeliveredAudio()
-    ordersCompleted++
     currentOrderStartTime = getCurrentTime()
     rat_state.carrying = null
-
-    if (ordersCompleted + 1 >= orders.length) {
+    if (ordersCompleted + 1 >= orders.length)
       winRound()
-    }
+
+    ordersCompleted++
   }
 
   function winRound(){
@@ -161,6 +160,8 @@ document.addEventListener("turbolinks:load", function() {
   var background_image = findImage("background_image")
   var furnace_image = findImage("furnace_image")
   var table_image = findImage("table_image")
+  var mk_image = findImage("mk_image")
+  var scorpion_image = findImage("scorpion_image")
   
   function moveRat(progress) {
     movespeed_modifier = shiftHeld ? 1 : 0.5
@@ -415,6 +416,8 @@ document.addEventListener("turbolinks:load", function() {
       kPressed()
     if(event.keyCode == 76)
       lPressed()
+    if(event.keyCode == 77)
+      mPressed()
   }
 
   function rPressed(){
@@ -439,6 +442,12 @@ document.addEventListener("turbolinks:load", function() {
     background_image = space_image
     rat_image = xwing_image
     current_music = playStarWars()
+  }
+
+  function mPressed(){
+    background_image = mk_image
+    rat_image = scorpion_image
+    current_music = playMK()
   }
 
 
