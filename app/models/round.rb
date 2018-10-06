@@ -26,4 +26,14 @@ class Round < ApplicationRecord
       sum + order.time
     end
   end
+    
+  def self.order_counts_played
+    counts = {}
+    self.finished_rounds.each do |round|
+      unless round.orders.length == 0
+        counts[round.orders.length] = true
+      end
+    end
+    counts.map {|k, v|  k }.sort
+  end
 end

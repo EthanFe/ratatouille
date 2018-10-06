@@ -1,13 +1,22 @@
 <h1> Chef's Leaderboard </h1>
-<%index = 0%>
-<%@chefs_played.each do |c| %>
-<h2><%= index = @chefs_played.find_index(c)+1%>.) <a href = '/chefs/<%=c.id%>'><%=c.name%></a></h2>
-<h3>Total Orders Completed: <%=c.totalOrders%></h3>
-<h3>Average Cooking Time: <%=(c.averageTime/1000).to_s[0..4]%> Seconds Per Order</h3>
-<%end%>
+
+<%= form_with url: filtered_leaderboard_path, method: :get do |f| %>
+  <%= label_tag("Number of orders:") %>
+  <%= f.collection_select :order_count, @order_counts_played, :to_s, :to_s, {:selected => @order_count || @order_counts_played.first} %>
+  <%= submit_tag("Filter") %>
+<% end %>
+
+<% @chefs_played.each_with_index do |chef, index| %>
+  <h1> LOL WTF <%= rand(600) %></h1>
+  <% #binding.pry %>
+  <h2><%= index + 1 %>.) <a href = '/chefs/<%=chef.id%>'><%=chef.name%></a></h2>
+  <h3>Best Time: <%= '%.2f' % (chef.best_time(@order_count).to_f / 1000) %> seconds</h3>
+  <h4>Total Orders Completed: <%=chef.totalOrders(@order_count) %></h3>
+  <h4>Average Cooking Time: <%=(chef.averageTime(@order_count)/1000).to_s[0..4]%> Seconds Per Order</h3>
+<% end %>
 <div>
-<%@chefs_not_played.each do |c| %>
-<h2><%=index+=1%>.) <a href = '/chefs/<%=c.id%>'><%=c.name%></a> (Did Not Play)</h2>
+<%@chefs_not_played.each_with_index do |c, index| %>
+  <h2><%= index + @chefs_played.length + 1 %>.) <a href = '/chefs/<%=c.id%>'><%=c.name%></a> (Did Not Play)</h2>
 <%end%>
 <br/>
 <%= link_to "New Game", new_round_path %>

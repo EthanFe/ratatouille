@@ -4,9 +4,18 @@ class Chef < ApplicationRecord
 
   validates :name, uniqueness: true
 
-  def totalTime 
+  def validRounds(order_count)
+    self.rounds.select do |r| 
+      all_orders_finished = r.orders.all? do |o|
+        o.time != nil
+      end
+      all_orders_finished && (!order_count || r.orders.length == order_count)
+    end 
+  end
+
+  def totalTime(order_count)
     time = 0.0
-    self.validRounds.each do |r|
+    self.validRounds(order_count).each do |r|
       r.orders.each do |o|
         time += o.time
       end 
@@ -14,36 +23,28 @@ class Chef < ApplicationRecord
     time 
   end
 
-  def validRounds 
-    self.rounds.select do |r| 
-      r.orders.all? do |o| 
-        o.time != nil
-      end
-    end 
-  end 
-
-  def totalOrders
+  def totalOrders(order_count)
     orders = 0
-    self.validRounds.each do |r|
+    self.validRounds(order_count).each do |r|
       orders += r.orders.length
     end
     orders
   end
 
-  def averageTime 
-    if(self.totalOrders == 0)
+  def averageTime(order_count)
+    if(self.totalOrders(order_count) == 0)
       0.0
     else 
-    self.totalTime/self.totalOrders
+      self.totalTime(order_count)/self.totalOrders(order_count)
     end
-  end 
+  end
 
-  def didNotPlay?
-    if(self.averageTime == 0.0)
-      true
-    else 
-      false 
-    end 
-  end 
+  def didNotPlay?(order_count)
+    self.validRounds(order_count).length == 0
+  end
 
+  def best_time(order_count)
+    round = self.validRounds(order_count).sort_by { |round| round.total_time }.first
+    round ? round.total_time : nil
+  end
 end 
