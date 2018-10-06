@@ -26,19 +26,14 @@ class ChefsController < ApplicationController
     @chefs_played = @chefs_played.sort_by { |c| c.best_time(@order_count) }
     @chefs_not_played = Chef.all.select { |c| c.didNotPlay?(@order_count) == true }
     @order_counts_played = Round.order_counts_played # array of which round counts have any leaderboard entries
-    # unless @order_count == 1
-    #   redirect_to :controller => 'rounds', :action => 'new'
-    # end
   end
 
-  def filtered_leaderboard
-    @order_count = [params[:order_count].to_i, 1].max
-    @chefs_played = Chef.all.select { |c| c.didNotPlay?(@order_count) == false }
-    @chefs_played = @chefs_played.sort_by { |c| c.best_time(@order_count) }
-    @chefs_not_played = Chef.all.select { |c| c.didNotPlay?(@order_count) == true }
-    @order_counts_played = Round.order_counts_played # array of which round counts have any leaderboard entries
-    render :login_page
-  end
+  def show 
+    @chef = Chef.find(params[:id])
+    # stuff for filtering by ordercount on show page that im too lazy to finish implementing
+    # @order_count = [params[:order_count].to_i, 1].max
+    # @order_counts_played = @chef.order_counts_played # array of which round counts have any leaderboard entries
+  end 
 
   def login_page
   end
@@ -59,9 +54,5 @@ class ChefsController < ApplicationController
     flash[:notice] = "Successfully logged out"
     redirect_to :chefs_login_page
   end
-
-  def show 
-    @chef = Chef.find(params[:id])
-  end 
   
 end

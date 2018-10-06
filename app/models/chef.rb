@@ -4,12 +4,17 @@ class Chef < ApplicationRecord
 
   validates :name, uniqueness: true
 
-  def validRounds(order_count)
+  def all_valid_rounds
     self.rounds.select do |r| 
-      all_orders_finished = r.orders.all? do |o|
+      r.orders.all? do |o|
         o.time != nil
       end
-      all_orders_finished && (!order_count || r.orders.length == order_count)
+    end 
+  end
+
+  def validRounds(order_count = nil)
+    self.all_valid_rounds.select do |r| 
+      !order_count || r.orders.length == order_count
     end 
   end
 
@@ -23,7 +28,7 @@ class Chef < ApplicationRecord
     time 
   end
 
-  def totalOrders(order_count)
+  def totalOrders(order_count = nil)
     orders = 0
     self.validRounds(order_count).each do |r|
       orders += r.orders.length
@@ -31,7 +36,7 @@ class Chef < ApplicationRecord
     orders
   end
 
-  def averageTime(order_count)
+  def averageTime(order_count = nil)
     if(self.totalOrders(order_count) == 0)
       0.0
     else 
@@ -47,4 +52,14 @@ class Chef < ApplicationRecord
     round = self.validRounds(order_count).sort_by { |round| round.total_time }.first
     round ? round.total_time : nil
   end
+
+  # def order_counts_played
+  #   counts = {}
+  #   self.validRounds.each do |round|
+  #     unless round.orders.length == 0
+  #       counts[round.orders.length] = true
+  #     end
+  #   end
+  #   counts.map {|k, v|  k }.sort
+  # end
 end 

@@ -1,14 +1,12 @@
 <h1> Chef's Leaderboard </h1>
 
-<%= form_with url: filtered_leaderboard_path, method: :get do |f| %>
+<%= form_with url: leaderboard_path, method: :get, local: true do |f| %>
   <%= label_tag("Number of orders:") %>
   <%= f.collection_select :order_count, @order_counts_played, :to_s, :to_s, {:selected => @order_count || @order_counts_played.first} %>
   <%= submit_tag("Filter") %>
 <% end %>
 
 <% @chefs_played.each_with_index do |chef, index| %>
-  <h1> LOL WTF <%= rand(600) %></h1>
-  <% #binding.pry %>
   <h2><%= index + 1 %>.) <a href = '/chefs/<%=chef.id%>'><%=chef.name%></a></h2>
   <h3>Best Time: <%= '%.2f' % (chef.best_time(@order_count).to_f / 1000) %> seconds</h3>
   <h4>Total Orders Completed: <%=chef.totalOrders(@order_count) %></h3>

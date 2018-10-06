@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   post 'rounds/:id/order_finished', to:'rounds#order_finished'
   get 'chefs/login', to: 'chefs#login_page', as: "chefs_login_page"
   get 'chefs/leaderboard', to: 'chefs#leaderboard', as: "leaderboard"
-  get 'chefs/filtered_leaderboard', to: 'chefs#filtered_leaderboard', as: 'filtered_leaderboard'
   post 'chefs/login'
   post 'chefs/logout'
   resources :chefs, only: [:new, :create,:show]
